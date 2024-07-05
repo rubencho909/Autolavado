@@ -17,6 +17,12 @@ public class ServicioController {
     @Autowired
     ServicioService servicioService;
 
+    /**
+     * Metodo que realiza la consulta de los servicios creados en BD
+     * @param model
+     * @param mensaje
+     * @return
+     */
     @GetMapping("/lista")
     public String verServicios(Model model, @ModelAttribute("mensaje") String mensaje){
         List<Servicio> listaServicios = servicioService.getAllServicios();
@@ -26,6 +32,12 @@ public class ServicioController {
         return "/servicio/lista";
     }
 
+    /**
+     * Metodo que muestra el formulario para crear un nuevo servicio
+     * @param model
+     * @param mensaje
+     * @return
+     */
     @GetMapping("/nuevo")
     public String nuevoServicio(Model model, @ModelAttribute("mensaje") String mensaje){
         Servicio ser = new Servicio();
@@ -35,6 +47,12 @@ public class ServicioController {
         return "/servicio/nuevo";
     }
 
+    /**
+     * Metodo que realiza el registro del nuevo servicio en BD
+     * @param ser
+     * @param redirectAttributes
+     * @return
+     */
     @PostMapping("/guardar")
     public String crearServicio(Servicio ser, RedirectAttributes redirectAttributes) {
 
@@ -46,6 +64,13 @@ public class ServicioController {
         return "redirect:/nuevo";
     }
 
+    /**
+     * Metodo que obtiene el servicio por su ID para ser editado
+     * @param model
+     * @param id
+     * @param mensaje
+     * @return
+     */
     @GetMapping("/editar/{id}")
     public String editarServicio(Model model, @PathVariable Integer id, @ModelAttribute("mensaje") String mensaje){
         Servicio ser = servicioService.getServicioById(id);
@@ -54,6 +79,12 @@ public class ServicioController {
         return "/servicio/editar";
     }
 
+    /**
+     * Metodo que realiza la edicion del servicio consultado y registra los cambios en BD
+     * @param ser
+     * @param redirectAttributes
+     * @return
+     */
     @PostMapping("/editar")
     public String updateEmpresa(@ModelAttribute("ser") Servicio ser, RedirectAttributes redirectAttributes){
         if (servicioService.saveOrUpdateServicio(ser)) {
@@ -64,6 +95,13 @@ public class ServicioController {
         return "redirect:/servicio/editar" + ser.getId();
     }
 
+    /**
+     * Metodo que realiza la consulta del servicio por ID y muestra su informacion
+     * @param model
+     * @param id
+     * @return
+     * @throws Exception
+     */
     @GetMapping("/detalle/{id}")
     public String detalle(Model model, @PathVariable Integer id) throws Exception {
         Servicio servicio = null;
@@ -76,6 +114,12 @@ public class ServicioController {
         return "/servicio/detalle";
     }
 
+    /**
+     * Metodo que realiza la eliminacion del servicio por ID en BD
+     * @param id
+     * @param redirectAttributes
+     * @return
+     */
     @GetMapping("/borrar/{id}")
     public String eliminarServicio(@PathVariable Integer id, RedirectAttributes redirectAttributes){
         if (servicioService.deleteServicio(id) == true){
