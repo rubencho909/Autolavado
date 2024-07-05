@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{plantilla/template :: head}"></head>
+
+<body>
+<header th:replace="~{plantilla/template :: header}"></header>
+<div class="container my-5">
+    <div class="d-flex justify-content-center">
+        <div class="card bg-light" style="width: 70%;">
+            <div class="card-header bg-dark text-white" th:text="${titulo}"></div>
+            <div class="card-body">
+                <form th:action="@{/servicio/editar}" th:object="${ser}" method="post">
+                    <div class="mb-3 row">
+                        <div class="form-group col-md-12">
+                            <label class="col-md-3 col-form-label" for="id">ID del Servicio:</label>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" id="id" th:field="*{id}" readonly="readonly">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <div class="form-group col-md-12">
+                            <label class="col-md-3 col-form-label" for="codigo">Código del Servicio:</label>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" id="codigo" th:field="*{codigo}" readonly="readonly">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <div class="form-group col-md-12">
+                            <label class="col-md-3 col-form-label" for="nombre">Nombre del Servicio:</label>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" id="nombre" th:field="*{nombre}" required="required">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <div class="form-group col-md-12">
+                            <label class="col-md-3 col-form-label" for="valor">Valor:</label>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" id="valor" th:field="*{valor}" required="required">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-4 row">
+                        <div class="col-md-12 text-end">
+                            <button class="btn btn-success">
+                                Editar Servicio
+                            </button>
+                        </div>
+                    </div>
+                </form>
+                <br>
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <a href="javascript: history.go(-1)" class="btn btn-info" role="button">Atrás</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</br></br>
+<footer class="mt-5" th:replace="~{plantilla/template :: footer}"></footer>
+</body>
+</html>

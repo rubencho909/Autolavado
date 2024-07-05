@@ -1,0 +1,5 @@
+
+.custom-toast-top-right {
+    top: 500px; /* Ajusta este valor según la altura de tu barra de navegación */
+    right: 12px;
+}
