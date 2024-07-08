@@ -26,7 +26,7 @@
             <tr th:each="servicio:${serlist}">
                 <td th:text="${servicio.codigo}"></td>
                 <td th:text="${servicio.nombre}"></td>
-                <td th:text="${servicio.valor}"></td>
+                <td th:text="${servicio.valorFormat}"></td>
                 <td>
                     <a th:href="@{'/servicio/detalle/' + ${servicio.id}}">
                         <button class="btn btn-outline-primary"><i class="fa-solid fa-eye"></i></button>

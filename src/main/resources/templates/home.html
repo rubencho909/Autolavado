@@ -7,14 +7,24 @@
 <header th:replace="~{plantilla/template :: header}"></header>
 
 <div class="container">
-    <div class="jumbotron">
-        <h1 class="display-4">Hello, world!</h1>
-        <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
-        <hr class="my-4">
-        <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
-        <p class="lead">
-            <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
-        </p>
+
+    <h2 class="titulo"> Auto-Lavado La Primavera</h2>
+
+    <div class="slider-box">
+        <ul>
+            <li>
+                <img th:src="@{/images/1.jpg}" width="800" height="400">
+            </li>
+            <li>
+                <img th:src="@{/images/2.jpg}" width="800" height="400">
+            </li>
+            <li>
+                <img th:src="@{/images/3.jpg}" width="800" height="400">
+            </li>
+            <li>
+                <img th:src="@{/images/5.jpg}" width="800" height="400">
+            </li>
+        </ul>
     </div>
 </div>
 

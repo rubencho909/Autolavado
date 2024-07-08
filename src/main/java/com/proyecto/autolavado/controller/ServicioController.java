@@ -8,7 +8,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 
 @Controller
 @RequestMapping("/servicio")
@@ -26,6 +28,13 @@ public class ServicioController {
     @GetMapping("/lista")
     public String verServicios(Model model, @ModelAttribute("mensaje") String mensaje){
         List<Servicio> listaServicios = servicioService.getAllServicios();
+        NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("es", "CO"));
+
+        for (Servicio servicio : listaServicios) {
+            String valorString = currencyFormat.format(servicio.getValor());
+            servicio.setValorFormat(valorString);
+        }
+
         model.addAttribute("titulo", "Lista de Servicios");
         model.addAttribute("serlist", listaServicios);
         model.addAttribute("mensaje", mensaje);
@@ -86,7 +95,7 @@ public class ServicioController {
      * @return
      */
     @PostMapping("/editar")
-    public String updateEmpresa(@ModelAttribute("ser") Servicio ser, RedirectAttributes redirectAttributes){
+    public String updateServicio(@ModelAttribute("ser") Servicio ser, RedirectAttributes redirectAttributes){
         if (servicioService.saveOrUpdateServicio(ser)) {
             redirectAttributes.addFlashAttribute("mensaje", "updateOK");
             return "redirect:/servicio/lista";
@@ -106,10 +115,15 @@ public class ServicioController {
     public String detalle(Model model, @PathVariable Integer id) throws Exception {
         Servicio servicio = null;
 
+        NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("es", "CO"));
+
         if (id != null) {
             servicio = servicioService.getServicioById(id);
+            String valorString = currencyFormat.format(servicio.getValor());
+            servicio.setValorFormat(valorString);
             model.addAttribute("titulo", "Formulario: Detalle Servicio");
         }
+
         model.addAttribute("servicio", servicio);
         return "/servicio/detalle";
     }

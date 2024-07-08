@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{plantilla/template :: head}"></head>
+
+<body>
+<header th:replace="~{plantilla/template :: header}"></header>
+<div class="container my-5">
+    <div class="d-flex justify-content-center">
+        <div class="card bg-light" style="width: 70%;">
+            <div class="card-header bg-dark text-white" th:text="${titulo}"></div>
+            <div class="card-body">
+                <h5 class="card-title" th:text="'Empleado: ' + ${empleado.nombre} + ' ' + ${empleado.apellido}"></h5>
+                <p class="card-text">
+                    Tipo Identificacion:
+                    <span th:if="${empleado.tipoIdentificacion=='TI_CC'}">Cédula de Ciudadanía</span>
+                    <span th:if="${empleado.tipoIdentificacion=='TI_TI'}">Tarjeta Identidad</span>
+                    <span th:if="${empleado.tipoIdentificacion=='TI_CE'}">Cédula de Extranjería</span>
+                </p>
+                <p class="card-text" th:text="'Número Identificación: ' + ${empleado.numeroIdentificacion}"></p>
+                <p class="card-text" th:text="'Correo: ' + ${empleado.correo}"></p>
+                <p class="card-text">
+                    Rol:
+                    <span th:if="${empleado.rol=='ROLE_ADMIN'}">Administrador</span>
+                    <span th:if="${empleado.rol=='ROLE_CONTA'}">Contador</span>
+                    <span th:if="${empleado.rol=='ROLE_USER'}">Operativo</span>
+                </p>
+                <p class="card-text">
+                    Estado:
+                    <span th:if="${empleado.estado}">Activo</span>
+                    <span th:unless="${empleado.estado}">Inactivo</span>
+                </p>
+                <br>
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <a href="javascript: history.go(-1)" class="btn btn-info" role="button">Atrás</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</br></br>
+<footer class="mt-5" th:replace="~{plantilla/template :: footer}"></footer>
+</body>
+</html>

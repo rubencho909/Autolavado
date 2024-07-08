@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{plantilla/template :: head}"></head>
+
+<body>
+<header th:replace="~{plantilla/template :: header}"></header>
+<div class="container my-5">
+    <div class="d-flex justify-content-center">
+        <div class="card bg-light" style="width: 70%;">
+            <div class="card-header bg-dark text-white" th:text="${titulo}"></div>
+            <div class="card-body">
+                <form th:action="@{/empleado/editar}" th:object="${emp}" method="post">
+
+                    <!-- CAMPO ID -->
+                    <div class="mb-3 row">
+                        <div class="form-group col-md-12">
+                            <label class="col-md-3 col-form-label" for="id">ID del EMpleado:</label>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" id="id" th:field="*{id}" readonly="readonly">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CAMPO NOMBRES -->
+                    <div class="mb-3 row">
+                        <div class="form-group col-md-12">
+                            <label class="col-md-3 col-form-label" for="nombre">Nombres:</label>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" id="nombre" th:field="*{nombre}" required="required">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CAMPO APELLIDOS -->
+                    <div class="mb-3 row">
+                        <div class="form-group col-md-12">
+                            <label class="col-md-3 col-form-label" for="apellido">Apellidos:</label>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" id="apellido" th:field="*{apellido}" required="required">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CAMPO TIPO DE IDENTIFICACION -->
+                    <div class="mb-3 row">
+                        <div class="form-group col-md-12">
+                            <label class="col-md-3 col-form-label" for="tipoIdentificacion">Tipo de Identificación:</label>
+                            <div class="col-md-9">
+                                <select class="form-control" th:field="*{tipoIdentificacion}" id="tipoIdentificacion" required="required">
+                                    <option th:value='TI_CC'>Cédula de Ciudadanía</option>
+                                    <option th:value='TI_TI'>Tarjeta Identidad</option>
+                                    <option th:value='TI_CE'>Cédula de Extranjería</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CAMPO NUMERO IDENTIFICACIONS -->
+                    <div class="mb-3 row">
+                        <div class="form-group col-md-12">
+                            <label class="col-md-3 col-form-label" for="cedula">Número Identificación:</label>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" id="cedula" th:field="*{numeroIdentificacion}" required="required">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CAMPO CORREO -->
+                    <div class="mb-3 row">
+                        <div class="form-group col-md-12">
+                            <label class="col-md-3 col-form-label" for="correo">Correo:</label>
+                            <div class="col-md-9">
+                                <input type="email" class="form-control" id="correo" th:field="*{correo}" required="required">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CAMPO ROL EMPLEADO -->
+                    <div class="mb-3 row">
+                        <div class="form-group col-md-12">
+                            <label class="col-md-3 col-form-label" for="rol">Rol del Empleado:</label>
+                            <div class="col-md-9">
+                                <select class="form-control" th:field="*{rol}" id="rol" required="required">
+                                    <option th:value='ROLE_ADMIN'>Administrador</option>
+                                    <option th:value='ROLE_CONTA'>Contador</option>
+                                    <option th:value='ROLE_USER'>Operativo</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CAMPO CONTRASEÑA EMPLEADO -->
+                    <div class="mb-3 row">
+                        <div class="form-group col-md-12">
+                            <label class="col-md-3 col-form-label" for="password">Contraseña del Empleado:</label>
+                            <div class="col-md-9">
+                                <input type="password" class="form-control" id="password" th:field="*{password}">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CAMPO ESTADO EMPLEADO -->
+                    <div class="mb-3 row">
+                        <div class="form-group col-md-12">
+                            <label class="col-md-3 col-form-label" for="estado">Estado del Empleado:</label>
+                            <div class="col-md-9">
+                                <select class="form-control" th:field="*{estado}" id="estado" required="required">
+                                    <option th:value=1>Activo</option>
+                                    <option th:value=0>Inactivo</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- BOTON EDITAR -->
+                    <div class="mt-4 row">
+                        <div class="col-md-12 text-end">
+                            <button class="btn btn-success">
+                                Editar Servicio
+                            </button>
+                        </div>
+                    </div>
+                </form>
+                <br>
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <a href="javascript: history.go(-1)" class="btn btn-info" role="button">Atrás</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</br></br>
+<footer class="mt-5" th:replace="~{plantilla/template :: footer}"></footer>
+</body>
+</html>
