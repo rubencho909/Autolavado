@@ -1,7 +1,6 @@
 package com.proyecto.autolavado.controller;
 
 import com.proyecto.autolavado.modelos.Empleado;
-import com.proyecto.autolavado.modelos.Servicio;
 import com.proyecto.autolavado.service.EmpleadoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,30 +20,26 @@ public class EmpleadoController {
     /**
      * Metodo que realiza la consulta de los empleados creados en BD
      * @param model
-     * @param mensaje
      * @return
      */
     @GetMapping("/lista")
-    public String verEmpleados(Model model, @ModelAttribute("mensaje") String mensaje){
+    public String verEmpleados(Model model){
         List<Empleado> listaEmpleados = empleadoService.getAllEmpleados();
         model.addAttribute("titulo", "Lista de Empleados");
         model.addAttribute("emplist", listaEmpleados);
-        model.addAttribute("mensaje", mensaje);
         return "/empleado/lista";
     }
 
     /**
      * Metodo que muestra el formulario para crear un nuevo empleado
      * @param model
-     * @param mensaje
      * @return
      */
     @GetMapping("/nuevo")
-    public String nuevoEmpleado(Model model, @ModelAttribute("mensaje") String mensaje){
+    public String nuevoEmpleado(Model model){
         Empleado emp = new Empleado();
         model.addAttribute("titulo", "Agregar Nuevo Empleado");
         model.addAttribute("emp", emp);
-        model.addAttribute("mensaje", mensaje);
         return "/empleado/nuevo";
     }
 
@@ -57,10 +52,10 @@ public class EmpleadoController {
     @PostMapping("/guardar")
     public String crearEmpleado(Empleado emp, RedirectAttributes redirectAttributes) {
         if (empleadoService.saveOrUpdateEmpleado(emp) == true) {
-            redirectAttributes.addFlashAttribute("mensaje", "saveOK");
+            redirectAttributes.addFlashAttribute("success", "Empleado creado con exito!");
             return "redirect:/empleado/lista";
         }
-        redirectAttributes.addFlashAttribute("mensaje", "saveError");
+        redirectAttributes.addFlashAttribute("error", "Error al crear un empleado");
         return "redirect:/nuevo";
     }
 
@@ -68,14 +63,18 @@ public class EmpleadoController {
      * Metodo que obtiene el empleado por su ID para ser editado
      * @param model
      * @param id
-     * @param mensaje
+     * @param redirectAttributes
      * @return
      */
     @GetMapping("/editar/{id}")
-    public String editarEmpleado(Model model, @PathVariable Integer id, @ModelAttribute("mensaje") String mensaje){
+    public String editarEmpleado(Model model, @PathVariable Integer id, RedirectAttributes redirectAttributes){
         Empleado emp = empleadoService.getEmpleadoById(id);
+        model.addAttribute("titulo", "Editar Empleado");
+        if(emp == null) {
+            redirectAttributes.addFlashAttribute("error", "El ID del empleado no existe");
+            return "redirect:/empleado/lista";
+        }
         model.addAttribute("emp", emp);
-        model.addAttribute("mensaje", mensaje);
         return "/empleado/editar";
     }
 
@@ -88,10 +87,10 @@ public class EmpleadoController {
     @PostMapping("/editar")
     public String updateEmpleado(@ModelAttribute("emp") Empleado emp, RedirectAttributes redirectAttributes){
         if (empleadoService.saveOrUpdateEmpleado(emp)) {
-            redirectAttributes.addFlashAttribute("mensaje", "updateOK");
+            redirectAttributes.addFlashAttribute("success", "El empleado ha sido actualizado con exito!");
             return "redirect:/empleado/lista";
         }
-        redirectAttributes.addFlashAttribute("mensaje", "updateError");
+        redirectAttributes.addFlashAttribute("error", "Error al actualizar un empleado");
         return "redirect:/empleado/editar" + emp.getId();
     }
 
@@ -122,10 +121,10 @@ public class EmpleadoController {
     @GetMapping("/borrar/{id}")
     public String eliminarEmpleado(@PathVariable Integer id, RedirectAttributes redirectAttributes){
         if (empleadoService.deleteEmpleado(id) == true){
-            redirectAttributes.addFlashAttribute("mensaje","deleteOK");
+            redirectAttributes.addFlashAttribute("success","Empleado eliminado con exito!");
             return "redirect:/empleado/lista";
         }
-        redirectAttributes.addFlashAttribute("mensaje", "deleteError");
+        redirectAttributes.addFlashAttribute("error", "Error al eliminar un empleado");
         return "redirect:/empleado/lista";
     }
 

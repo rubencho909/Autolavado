@@ -39,7 +39,7 @@
                     <!-- MODULO FINANCIERO -->
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page"
-                           th:href="@{/}">
+						   th:href="@{/movimiento/lista}">
                             <i class="fa-solid fa-coins"></i> Financiero</a>
                     </li>
 
@@ -119,23 +119,6 @@
     <script type="text/javascript" th:src="@{/js/jquery-3.6.1.min.js}"></script>
     <script type="text/javascript" th:src="@{/js/popper.min.js}"></script>
     <script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
-    <script>
-        (function () {
-            'use strict'
-            var forms = document.querySelectorAll('.needs-validation')
-
-            Array.prototype.slice.call(forms)
-                .forEach(function (form) {
-                    form.addEventListener('submit', function (event) {
-                        if (!form.checkValidity()) {
-                            event.preventDefault()
-                            event.stopPropagation()
-                        }
-                form.classList.add('was-validated')
-                }, false)
-            })
-        })()
-    </script>
 </footer>
 
 </body>

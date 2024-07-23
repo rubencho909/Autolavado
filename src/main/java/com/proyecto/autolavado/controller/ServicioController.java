@@ -22,11 +22,10 @@ public class ServicioController {
     /**
      * Metodo que realiza la consulta de los servicios creados en BD
      * @param model
-     * @param mensaje
      * @return
      */
     @GetMapping("/lista")
-    public String verServicios(Model model, @ModelAttribute("mensaje") String mensaje){
+    public String verServicios(Model model){
         List<Servicio> listaServicios = servicioService.getAllServicios();
         NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("es", "CO"));
 
@@ -37,22 +36,19 @@ public class ServicioController {
 
         model.addAttribute("titulo", "Lista de Servicios");
         model.addAttribute("serlist", listaServicios);
-        model.addAttribute("mensaje", mensaje);
         return "/servicio/lista";
     }
 
     /**
      * Metodo que muestra el formulario para crear un nuevo servicio
      * @param model
-     * @param mensaje
      * @return
      */
     @GetMapping("/nuevo")
-    public String nuevoServicio(Model model, @ModelAttribute("mensaje") String mensaje){
+    public String nuevoServicio(Model model){
         Servicio ser = new Servicio();
         model.addAttribute("titulo", "Agregar Nuevo Servicio");
         model.addAttribute("ser", ser);
-        model.addAttribute("mensaje", mensaje);
         return "/servicio/nuevo";
     }
 
@@ -66,10 +62,10 @@ public class ServicioController {
     public String crearServicio(Servicio ser, RedirectAttributes redirectAttributes) {
 
         if (servicioService.saveOrUpdateServicio(ser) == true) {
-            redirectAttributes.addFlashAttribute("mensaje", "saveOK");
+            redirectAttributes.addFlashAttribute("success", "Servicio creado con exito!");
             return "redirect:/servicio/lista";
         }
-        redirectAttributes.addFlashAttribute("mensaje", "saveError");
+        redirectAttributes.addFlashAttribute("error", "Error al crear un servicio");
         return "redirect:/nuevo";
     }
 
@@ -77,14 +73,13 @@ public class ServicioController {
      * Metodo que obtiene el servicio por su ID para ser editado
      * @param model
      * @param id
-     * @param mensaje
      * @return
      */
     @GetMapping("/editar/{id}")
-    public String editarServicio(Model model, @PathVariable Integer id, @ModelAttribute("mensaje") String mensaje){
+    public String editarServicio(Model model, @PathVariable Integer id){
         Servicio ser = servicioService.getServicioById(id);
+        model.addAttribute("titulo", "Editar Servicio");
         model.addAttribute("ser", ser);
-        model.addAttribute("mensaje", mensaje);
         return "/servicio/editar";
     }
 
@@ -97,10 +92,10 @@ public class ServicioController {
     @PostMapping("/editar")
     public String updateServicio(@ModelAttribute("ser") Servicio ser, RedirectAttributes redirectAttributes){
         if (servicioService.saveOrUpdateServicio(ser)) {
-            redirectAttributes.addFlashAttribute("mensaje", "updateOK");
+            redirectAttributes.addFlashAttribute("success", "El servicio ha sido actualizado con exito!");
             return "redirect:/servicio/lista";
         }
-        redirectAttributes.addFlashAttribute("mensaje", "updateError");
+        redirectAttributes.addFlashAttribute("error", "Error al actualizar un servicio");
         return "redirect:/servicio/editar" + ser.getId();
     }
 
@@ -137,10 +132,10 @@ public class ServicioController {
     @GetMapping("/borrar/{id}")
     public String eliminarServicio(@PathVariable Integer id, RedirectAttributes redirectAttributes){
         if (servicioService.deleteServicio(id) == true){
-            redirectAttributes.addFlashAttribute("mensaje","deleteOK");
+            redirectAttributes.addFlashAttribute("success","Servicio eliminado con exito!");
             return "redirect:/servicio/lista";
         }
-        redirectAttributes.addFlashAttribute("mensaje", "deleteError");
+        redirectAttributes.addFlashAttribute("error", "Error al eliminar un servicio");
         return "redirect:/servicio/lista";
     }
 

@@ -13,13 +13,13 @@ public class Servicio {
     private int id;
     private String nombre;
     private String codigo;
-    private BigDecimal valor;
+    private long valor;
     private String valorFormat;
 
     public Servicio() {
     }
 
-    public Servicio(String nombre, String codigo, BigDecimal valor, String valorFormat) {
+    public Servicio(String nombre, String codigo, long valor, String valorFormat) {
         this.nombre = nombre;
         this.codigo = codigo;
         this.valor = valor;
@@ -50,11 +50,11 @@ public class Servicio {
         this.codigo = codigo;
     }
 
-    public BigDecimal getValor() {
+    public long getValor() {
         return valor;
     }
 
-    public void setValor(BigDecimal valor) {
+    public void setValor(long valor) {
         this.valor = valor;
     }
 

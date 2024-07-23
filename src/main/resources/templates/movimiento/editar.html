@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{plantilla/template :: head}"></head>
+
+<body>
+<header th:replace="~{plantilla/template :: header}"></header>
+<div class="container my-5">
+	<div class="d-flex justify-content-center">
+		<div class="card bg-light" style="width: 70%;">
+			<div class="card-header bg-dark text-white" th:text="${titulo}"></div>
+			<div class="card-body">
+				<form th:action="@{/movimiento/editar}" th:object="${mov}" method="post">
+
+					<!-- CAMPO ID -->
+					<div class="mb-3 row">
+						<div class="form-group col-md-12">
+							<label class="col-md-3 col-form-label" for="id">ID del Movimiento:</label>
+							<div class="col-md-9">
+								<input type="text" class="form-control" id="id" th:field="*{id}" readonly="readonly">
+							</div>
+						</div>
+					</div>
+
+					<!-- CAMPO CONCEPTO TRANSACCION -->
+					<div class="mb-3 row">
+						<div class="form-group col-md-12">
+							<label class="col-md-3 col-form-label" for="concepto">Concepto Transaccion:</label>
+							<div class="col-md-9">
+								<select class="form-control" th:field="*{concepto}" id="concepto" required="required" onchange="mostrarCampoOculto()">
+									<option th:value="1">Papeleria</option>
+									<option th:value="2">Servicios Publicos/Privados</option>
+									<option th:value="3">Operativos</option>
+									<option th:value="4">Caja Menor</option>
+									<option th:value="5">Tributario</option>
+									<option th:value="6">Mobiliario</option>
+									<option th:value="7">Maquinaria y Equipo</option>
+									<option th:value="8">Nomina</option>
+									<option th:value="9">Ingreso Servicio</option>
+								</select>
+							</div>
+						</div>
+					</div>
+
+					<!-- CAMPO NOMBRE TIPO SERVICIO -->
+					<div class="row" id="tipoServicioOculto" style="display: none">
+						<div class="form-group col-md-12">
+							<label class="col-md-3" for="servicio">Tipo Servicio:</label>
+							<div class="col-md-9">
+								<select class="form-control" id="servicio" th:field="*{servicio}" required="required" onchange="mostrarMontoServicio()">
+									<option th:each="servicio : ${serlist}" th:text="${servicio.nombre}" th:value="${servicio.id}" th:data-valor="${servicio.valor}"></option>
+								</select>
+							</div>
+						</div>
+					</div>
+
+					<!-- CAMPO MONTO -->
+					<div class="mb-3 row">
+						<div class="form-group col-md-12">
+							<label class="col-md-3 col-form-label" for="monto">Valor Monto:</label>
+							<div class="col-md-9">
+								<input type="text" class="form-control" id="monto" th:field="*{monto}" required="required">
+							</div>
+						</div>
+					</div>
+
+					<!-- CAMPO FECHA MOVIMIENTO -->
+					<div class="mb-3 row">
+						<div class="form-group col-md-12">
+							<label class="col-md-3 col-form-label" for="fecha">Fecha Movimiento:</label>
+							<div class="col-md-9">
+								<input type="date" class="form-control" id="fecha" th:field="*{fecha}" required="required" readonly>
+							</div>
+						</div>
+					</div>
+
+					<!-- BOTON CREAR MOVIMIENTO -->
+					<div class="mt-4 row">
+						<div class="col-md-12 text-end">
+							<button class="btn btn-success">
+								Crear Movimiento
+							</button>
+						</div>
+					</div>
+				</form>
+				<br>
+				<div class="row">
+					<div class="col-md-12 text-center">
+						<a href="javascript: history.go(-1)" class="btn btn-info" role="button">Atrás</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</br></br>
+<footer class="mt-5" th:replace="~{plantilla/template :: footer}"></footer>
+
+<script th:inline="javascript">
+	window.onload = function() {
+		document.getElementById("fecha").value = new Date().toJSON().slice(0, 10).replace(/-/g, '-');
+		mostrarCampoOculto(); // Asegura que el campo oculto se muestre correctamente si el valor es 9
+	}
+
+	function mostrarCampoOculto() {
+		var select = document.getElementById('concepto');
+		var tipoServicioOculto = document.getElementById('tipoServicioOculto');
+		var montoInput = document.getElementById('monto');
+
+		if (select.value == 9) {
+			tipoServicioOculto.style.display = 'block';
+			montoInput.readOnly = true;
+			mostrarMontoServicio(); // Asegura que el monto se actualice si el valor inicial es 9
+		} else {
+			tipoServicioOculto.style.display = 'none';
+			montoInput.readOnly = false;
+		}
+	}
+
+	function mostrarMontoServicio() {
+		var servicioSelect = document.getElementById('servicio');
+		var montoInput = document.getElementById('monto');
+		var selectedOption = servicioSelect.options[servicioSelect.selectedIndex];
+		var valorServicio = selectedOption.getAttribute('data-valor');
+
+		if (valorServicio) {
+			montoInput.value = valorServicio;
+		} else {
+			montoInput.value = ''; // Clear monto value if no service is selected
+		}
+	}
+</script>
+</body>
+</html>
